@@ -1,0 +1,25 @@
+name: CI
+on: [push, pull_request]
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dtolnay/rust-toolchain@1.56.0
+      - name: Cargo build
+        run: cargo build --all
+      - name: Cargo test
+        run: cargo test --all
+      - name: Cargo test with simd feature enabled
+        run: cargo test --all --features=simd,gen-tests
+      - name: Cargo test with serde feature enabled
+        run: cargo test --all --features=serde
+      - name: Cargo test without default features
+        run: cargo test --all --no-default-features
+      - name: Test for superlinear time regressions
+        run: cargo run --release -- --regressions
+        working-directory: fuzzer
