@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: dtolnay/rust-toolchain@1.56.0
+      - uses: dtolnay/rust-toolchain@1.60.0
       - name: Cargo build
         run: cargo build --all
       - name: Cargo test
